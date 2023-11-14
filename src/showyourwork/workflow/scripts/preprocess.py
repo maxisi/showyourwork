@@ -404,7 +404,7 @@ def get_json_tree(xmlfile):
     free_floating_graphics = [
         graphic
         for graphic in free_floating_graphics
-        if graphic not in config["tex_files_out"]
+        if graphic not in config.get("tex_files_out", [])
     ]
 
     # Separate into dynamic and static figures
