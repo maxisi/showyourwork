@@ -391,6 +391,8 @@ class Zenodo:
             res = subprocess.run(
                 [
                     "curl",
+                    "--referer",
+                    "https://show-your.work",
                     "-f",
                     *progress_bar,
                     "-o",
@@ -477,6 +479,8 @@ class Zenodo:
                         res = subprocess.run(
                             [
                                 "curl",
+                                "--referer",
+                                "https://show-your.work",
                                 "-f",
                                 f"{url}?access_token={self.access_token}",
                                 *progress_bar,
@@ -552,6 +556,8 @@ class Zenodo:
                     subprocess.run(
                         [
                             "curl",
+                            "--referer",
+                            "https://show-your.work",
                             url,
                             *progress_bar,
                             "--output",
@@ -980,6 +986,8 @@ class Zenodo:
                 res = subprocess.run(
                     [
                         "curl",
+                        "--referer",
+                        "https://show-your.work",
                         "-f",
                         f"{url}?access_token={self.access_token}",
                         "--progress-bar",
@@ -1104,6 +1112,8 @@ class Zenodo:
                 res = subprocess.run(
                     [
                         "curl",
+                        "--referer",
+                        "https://show-your.work",
                         "-f",
                         "--progress-bar",
                         "-o",
