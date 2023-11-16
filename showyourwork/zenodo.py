@@ -462,11 +462,14 @@ class Zenodo:
 
             if (
                 entry["key"] == rule_name
-                and rule_hashes.get(rule_name, None) == file.name
+                #and rule_hashes.get(rule_name, None) == file.name
             ):
-
+                if rule_hashes.get(rule_name, None) != file.name:
+                    logger.warning("File matches but ignoring hash mismatch!")
+                else:
+                    logger.debug(f"File name and hash both match.")
+                    
                 # Download it
-                logger.debug(f"File name and hash both match.")
                 if not dry_run:
                     logger.debug("Downloading...")
                     url = entry["links"]["content"]
