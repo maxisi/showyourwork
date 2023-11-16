@@ -308,7 +308,7 @@ class Zenodo:
             )
 
             # See if we find the deposit
-            if r.status_code <= 204:
+            if r.status_code <= 204 and r.status_code != 404:
                 if type(r.json()) is list and len(r.json()):
                     if get_run_type() == "build":
                         logger.info(
@@ -751,7 +751,7 @@ class Zenodo:
             f"Attempting to access {self.service} record with DOI {self.doi}..."
         )
         r = requests.get(f"https://{self.url}/api/records/{concept_id}")
-        if r.status_code > 204:
+        if r.status_code > 204  and r.status_code != 404:
             try:
                 data = r.json()
             except:
