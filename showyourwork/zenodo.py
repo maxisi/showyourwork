@@ -361,8 +361,8 @@ class Zenodo:
                     params={"access_token": self.access_token},
                 )
             )
-            for entry in data:
-                if entry["filename"] == rule_name:
+            for entry in data["entries"]:
+                if entry["key"] == rule_name:
                     file_id = entry["id"]
                     parse_request(
                         requests.delete(
@@ -454,14 +454,14 @@ class Zenodo:
         logger.debug(
             f"Searching for file `{rule_name}` with hash `{file.name}`..."
         )
-        for entry in data:
+        for entry in data["entries"]:
 
             logger.debug(
                 f"Inspecting candidate file `{entry['filename']}` with hash `{rule_hashes.get(rule_name, None)}`..."
             )
 
             if (
-                entry["filename"] == rule_name
+                entry["key"] == rule_name
                 and rule_hashes.get(rule_name, None) == file.name
             ):
 
@@ -469,7 +469,7 @@ class Zenodo:
                 logger.debug(f"File name and hash both match.")
                 if not dry_run:
                     logger.debug("Downloading...")
-                    url = entry["links"]["download"]
+                    url = entry["links"]["content"]
                     progress_bar = (
                         ["--progress-bar"]
                         if not snakemake.workflow.config["github_actions"]
@@ -500,7 +500,7 @@ class Zenodo:
 
                 return
 
-            elif entry["filename"] == rule_name:
+            elif entry["key"] == rule_name:
 
                 # We're done with this deposit
                 logger.debug(
@@ -980,8 +980,8 @@ class Zenodo:
                 params={"access_token": self.access_token},
             )
         )
-        for entry in data:
-            url = entry["links"]["download"]
+        for entry in data["entries"]:
+            url = entry["links"]["content"]
             try:
                 res = subprocess.run(
                     [
@@ -992,7 +992,7 @@ class Zenodo:
                         f"{url}?access_token={self.access_token}",
                         "--progress-bar",
                         "--output",
-                        entry["filename"],
+                        entry["key"],
                     ],
                     cwd=cache_folder,
                 )
